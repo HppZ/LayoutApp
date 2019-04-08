@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="LayoutApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:layoutApp="using:LayoutApp"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:Name="This"
+    >
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="CollectionViewSource" IsSourceGrouped="True"></CollectionViewSource>
+
+        <Style x:Key="Style1" TargetType="GridViewItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewItem">
+                        <Grid>
+                            <ContentPresenter Width="{Binding ElementName=This,Path=ItemWidth1}"
+                                              Background="Bisque"></ContentPresenter>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="Style2" TargetType="GridViewItem">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewItem">
+                        <Grid>
+                            <ContentPresenter HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                                              Width="{Binding ElementName=This,Path=ItemWidth2}"
+                                              Background="Aquamarine"></ContentPresenter>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <layoutApp:containerStyleSelector x:Key="ContainerStyleSelector" Style1="{StaticResource Style1}" Style2="{StaticResource  Style2}"></layoutApp:containerStyleSelector>
+
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <GridView ItemsSource="{Binding Source={StaticResource CollectionViewSource}}" ItemContainerStyleSelector="{StaticResource ContainerStyleSelector}">
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Key}"/>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </GridView.GroupStyle>
+
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Name}"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <ItemsWrapGrid Orientation="Horizontal" SizeChanged="ItemsPanel_SizeChanged"></ItemsWrapGrid>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+        </GridView>
+    </Grid>
+
+</Page>
